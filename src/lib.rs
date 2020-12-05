@@ -62,7 +62,6 @@ pub mod auth_module {
 }
 
 pub mod requests {
-    use reqwest::Response;
     use serde::Deserialize;
     use crate::auth_module::AuthData;
 
@@ -70,12 +69,12 @@ pub mod requests {
     pub struct UserData {
         pub id: u32,
         pub orgId: u32,
-        pub login: String,
-        pub role: String,
-        pub name: String,
-        pub jobPosition: String,
-        pub phone: String,
-        pub email: String,
+        pub login: Option<String>,
+        pub role: Option<String>,
+        pub name: Option<String>,
+        pub jobPosition: Option<String>,
+        pub phone: Option<String>,
+        pub email: Option<String>,
         pub lastAuthTime: String,
         pub comment: Option<String>,
         pub scopes: Vec<String>
