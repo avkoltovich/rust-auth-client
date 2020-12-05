@@ -38,10 +38,7 @@ fn get_login_and_password() -> HashMap<String, String> {
         .expect("Failed to read line");
 
     println!("Пароль:");
-    let mut password = String::new();
-    io::stdin()
-        .read_line(&mut password)
-        .expect("Failed to read line");
+    let password = rpassword::read_password_from_tty(Some("")).unwrap();
         
     let mut map = HashMap::new();
     map.insert("username".to_owned(), login.trim().to_owned());
