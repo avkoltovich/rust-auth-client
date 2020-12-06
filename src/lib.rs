@@ -1,7 +1,29 @@
+pub mod file_methods {
+    use std::fs;
+    use serde::Deserialize;
+
+    #[derive(Deserialize, Debug)]
+    pub struct LoginData {
+        pub login: String,
+        pub password: String,
+        pub org_key: String
+    }
+
+    pub fn read_from_file(file_name: &str) -> Result<LoginData, Box<dyn std::error::Error>> {
+        let contents = fs::read_to_string(file_name);
+
+        let login_data: LoginData = serde_json::from_str(&contents.unwrap()[..])?;
+
+        Ok(login_data)
+    }
+}
+
 pub mod auth_module {
     use std::collections::HashMap;
     use std::io;
     use serde::Deserialize;
+
+    use crate::file_methods::LoginData;
 
     #[derive(Deserialize)]
     pub struct AuthData {
@@ -15,20 +37,21 @@ pub mod auth_module {
     }
 
     #[tokio::main]
-    pub async fn get_access_token(login_data: Vec<String>) -> Result<AuthData, Box<dyn std::error::Error>> {
+    pub async fn get_access_token(login_data: Result<LoginData, Box<dyn std::error::Error>>) -> Result<AuthData, Box<dyn std::error::Error>> {
         let mut body: HashMap<String, String> = HashMap::new();
         let org_key: String;
 
-        if login_data.len() == 0 {
+        if let Err(_) = &login_data {
             body = get_login_and_password();
             org_key = get_org_key();
         } else {
-            body.insert("username".to_owned(), login_data[0].clone());
-            body.insert("password".to_owned(), login_data[1].clone());
+            let unwraped_login_data = login_data.unwrap();
+            body.insert("username".to_owned(), unwraped_login_data.login);
+            body.insert("password".to_owned(), unwraped_login_data.password);
             body.insert("grant_type".to_owned(), "password".to_owned());
             body.insert("client_id".to_owned(), "web".to_owned());
 
-            org_key = login_data[2].clone().to_uppercase();
+            org_key = unwraped_login_data.org_key.to_uppercase();
         }
 
         let client = reqwest::Client::new();
@@ -237,17 +260,5 @@ pub mod requests {
         let hierarchy_view: RawHierarchy = serde_json::from_str(&response[..])?;
 
         Ok(hierarchy_view)
-    }
-}
-
-pub mod file_methods {
-    use std::fs;
-
-    pub fn read_from_file(file_name: &str) -> Vec<String> {
-        let contents = fs::read_to_string(file_name);
-        contents.unwrap_or_else(|_| String::new())
-            .split_whitespace()
-            .map(|str| str.to_string())
-            .collect::<Vec<String>>()
     }
 }
