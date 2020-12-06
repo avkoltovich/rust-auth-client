@@ -27,25 +27,25 @@ pub mod auth_module {
             body = get_login_and_password();
             org_key = get_org_key();
         } else {
-            let unwraped_login_data = login_data.unwrap();
-            body.insert("username".to_owned(), unwraped_login_data.login);
-            body.insert("password".to_owned(), unwraped_login_data.password);
+            let unwrapped_login_data = login_data.unwrap();
+            body.insert("username".to_owned(), unwrapped_login_data.login);
+            body.insert("password".to_owned(), unwrapped_login_data.password);
             body.insert("grant_type".to_owned(), "password".to_owned());
             body.insert("client_id".to_owned(), "web".to_owned());
 
-            org_key = unwraped_login_data.org_key.to_uppercase();
+            org_key = unwrapped_login_data.org_key.to_uppercase();
         }
 
-        let client = reqwest::Client::new();
-        let res = client.post("https://auth.waliot.com/uaa/oauth/token")
+        let request = reqwest::Client::new();
+        let response = request.post("https://auth.waliot.com/uaa/oauth/token")
         .header("org_key", org_key)
         .json(&body)
         .send()
         .await?;
 
-        let result = res.json::<AuthData>().await?;
+        let auth_response_data = response.json::<AuthData>().await?;
         
-        Ok(result)
+        Ok(auth_response_data)
     }
 
     pub fn get_login_and_password() -> HashMap<String, String> {
@@ -58,13 +58,13 @@ pub mod auth_module {
         println!("Пароль:");
         let password = rpassword::read_password_from_tty(Some("")).unwrap();
             
-        let mut map = HashMap::new();
-        map.insert("username".to_owned(), login.trim().to_owned());
-        map.insert("password".to_owned(), password.trim().to_owned());
-        map.insert("grant_type".to_owned(), "password".to_owned());
-        map.insert("client_id".to_owned(), "web".to_owned());
+        let mut body = HashMap::new();
+        body.insert("username".to_owned(), login.trim().to_owned());
+        body.insert("password".to_owned(), password.trim().to_owned());
+        body.insert("grant_type".to_owned(), "password".to_owned());
+        body.insert("client_id".to_owned(), "web".to_owned());
 
-        map
+        body
     }
 
     pub fn get_org_key() -> String {
