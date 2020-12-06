@@ -1,6 +1,8 @@
 pub mod requests {
     use serde::Deserialize;
 
+    use crate::tree::RawNode;
+
     #[derive(Deserialize, Debug)]
     pub enum NodeType {
         ORG,
@@ -122,7 +124,7 @@ pub mod requests {
     #[serde(rename_all = "camelCase")]
     pub struct RawHierarchy {
         pub custom_tags: Vec<CustomTag>,
-        pub hierarchy: RawNodes,
+        pub hierarchy: RawNode,
         pub system_tags: Vec<String>
     }
 
