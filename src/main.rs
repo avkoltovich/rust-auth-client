@@ -1,5 +1,4 @@
-use rust_auth_client::{auth_module::{AuthData, get_access_token}, file_methods::read_from_file, requests::{RawHierarchy, UserData, get_hierarchy}};
-use rust_auth_client::requests::get_user_info;
+use rust_auth_client::{auth::auth_module::{AuthData, get_access_token}, file_io::file_io::read_from_file, requests::requests::UserData, requests::requests::{RawHierarchy, get_hierarchy, get_user_info}};
 
 fn main() {
     // Для автоматического логина:
