@@ -9,11 +9,16 @@ pub mod file_io {
         pub org_key: String
     }
 
-    pub fn read_from_file(file_name: &str) -> Result<LoginData, Box<dyn std::error::Error>> {
-        let contents = fs::read_to_string(file_name);
-        let login_data: LoginData = serde_json::from_str(&contents.unwrap()[..])?;
+    pub fn get_login_data_from_file() -> Result<LoginData, Box<dyn std::error::Error>> {
+        let contents = fs::read_to_string("login_data.json")?;
+        let login_data: LoginData = serde_json::from_str(&contents[..])?;
 
         Ok(login_data)
+    }
+
+    pub fn get_access_token_from_file() -> Result<String, Box<dyn std::error::Error>> {
+        let access_token = fs::read_to_string("access_token.txt")?;
+        Ok(access_token)
     }
 
     pub fn store_access_token_to_file(access_token: &String) -> std::io::Result<()> {

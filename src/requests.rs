@@ -1,6 +1,5 @@
 pub mod requests {
     use serde::Deserialize;
-    use crate::auth::auth_module::AuthData;
 
     #[derive(Deserialize, Debug)]
     pub enum NodeType {
@@ -128,9 +127,9 @@ pub mod requests {
     }
 
     #[tokio::main]
-    pub async fn get_user_info(auth_data: &AuthData) -> Result<UserData, Box<dyn std::error::Error>> {
-        let token = format!("Bearer {}", auth_data.access_token);
-        let url = &format!("https://api.waliot.com/api/customers/users/{}", auth_data.user_id)[..];
+    pub async fn get_user_info(access_token: &String, user_id: u32) -> Result<UserData, Box<dyn std::error::Error>> {
+        let token = format!("Bearer {}", access_token);
+        let url = &format!("https://api.waliot.com/api/customers/users/{}", user_id)[..];
 
         let response = reqwest::Client::new()
             .get(url)
@@ -146,9 +145,9 @@ pub mod requests {
     }
 
     #[tokio::main]
-    pub async fn get_hierarchy(auth_data: &AuthData) -> Result<RawHierarchy, Box<dyn std::error::Error>> {
-        let token = format!("Bearer {}", auth_data.access_token);
-        let url = &format!("https://api.waliot.com/api/customers/organizations/{}/hierarchy-view", auth_data.org_id)[..];
+    pub async fn get_hierarchy(access_token: &String, org_id: u32) -> Result<RawHierarchy, Box<dyn std::error::Error>> {
+        let token = format!("Bearer {}", access_token);
+        let url = &format!("https://api.waliot.com/api/customers/organizations/{}/hierarchy-view", org_id)[..];
 
         let response = reqwest::Client::new()
             .get(url)

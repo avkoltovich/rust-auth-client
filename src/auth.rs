@@ -3,7 +3,7 @@ pub mod auth_module {
     use std::io;
     use serde::Deserialize;
 
-    use crate::file_io::file_io::LoginData;
+    use crate::file_io::file_io::{get_access_token_from_file, get_login_data_from_file, store_access_token_to_file, store_refresh_token_to_file};
 
     #[derive(Deserialize)]
     pub struct AuthData {
@@ -18,7 +18,8 @@ pub mod auth_module {
     }
 
     #[tokio::main]
-    pub async fn get_access_token(login_data: Result<LoginData, Box<dyn std::error::Error>>) -> Result<AuthData, Box<dyn std::error::Error>> {
+    pub async fn log_in() -> Result<AuthData, Box<dyn std::error::Error>> {
+        let login_data= get_login_data_from_file();
         let mut body: HashMap<String, String> = HashMap::new();
         let org_key: String;
 
@@ -74,5 +75,26 @@ pub mod auth_module {
             .expect("Failed to read line");
 
         org_key.trim().to_uppercase()
+    }
+
+    pub fn get_access_token() -> String {
+        // Для автоматического логина:
+        // создать JSON файл login_data.json в корне проекта
+        // и заполнить в нем поля login, password, org_key
+
+        let access_token: String;
+
+        if let Err(_) = get_access_token_from_file() {
+            let auth_data: AuthData = log_in().unwrap();
+
+            store_access_token_to_file(&auth_data.access_token).unwrap_or_else(|_| println!("Ошибка создания файла access_token.txt"));
+            store_refresh_token_to_file(&auth_data.refresh_token).unwrap_or_else(|_| println!("Ошибка создания файла refresh_token.txt"));
+
+            access_token = get_access_token_from_file().unwrap();
+        } else {
+            access_token = get_access_token_from_file().unwrap();
+        }
+
+        access_token
     }
 }
