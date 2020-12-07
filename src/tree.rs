@@ -1,14 +1,15 @@
 use serde::Deserialize;
-use crate::requests::requests::NodeType;
+
+use crate::models::NodeType;
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct RawNode {
+pub struct ParticialRawNode {
     pub id: u32,
     #[serde(rename = "type")]
     pub node_type: NodeType,
     pub level: u32,
-    pub childs: Vec<RawNode>
+    pub childs: Vec<ParticialRawNode>
 }
 
 #[derive(Debug)]
@@ -24,7 +25,7 @@ pub struct TreeNode<'a> {
 }
 
 impl TreeNode<'_> {
-    pub fn new(node: Box<& RawNode>, parent_id: Option<u32>) -> TreeNode {
+    pub fn new(node: Box<& ParticialRawNode>, parent_id: Option<u32>) -> TreeNode {
         TreeNode {
             id: node.id,
             parent_id,
@@ -38,7 +39,7 @@ impl TreeNode<'_> {
     }
 }
 
-pub fn build_tree(node: Box<&RawNode>) -> TreeNode {
+pub fn build_tree(node: Box<&ParticialRawNode>) -> TreeNode {
     let root = TreeNode::new(node, None);
 
 
