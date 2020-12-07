@@ -10,10 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="045b7f08-a76a-48c3-82f3-1d4d5361d858" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/tree.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tree.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/tree.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,13 +55,6 @@
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
     <option name="version" value="2" />
@@ -77,7 +68,8 @@
       <option name="presentableId" value="Default" />
       <updated>1607274428399</updated>
       <workItem from="1607274430004" duration="3142000" />
-      <workItem from="1607280861208" duration="1229000" />
+      <workItem from="1607280861208" duration="1336000" />
+      <workItem from="1607352954892" duration="315000" />
     </task>
     <task id="LOCAL-00001" summary="refactor: рефакторинг переменных в auth.rs">
       <created>1607275130365</created>
@@ -107,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607277114441</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: добавлен модуль tree">
+      <created>1607282223342</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1607282223342</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +129,7 @@
     <MESSAGE value="feat: добавлены файлы для CLion" />
     <MESSAGE value="feat: добавлено еще одно поле в данные авторизации" />
     <MESSAGE value="ide: добавлены файлы для CLion" />
-    <option name="LAST_COMMIT_MESSAGE" value="ide: добавлены файлы для CLion" />
+    <MESSAGE value="feat: добавлен модуль tree" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: добавлен модуль tree" />
   </component>
 </project>
