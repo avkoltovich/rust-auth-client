@@ -12,19 +12,21 @@ pub struct RawNode {
 }
 
 #[derive(Debug)]
-pub struct TreeNode {
+pub struct TreeNode<'a> {
     pub id: u32,
+    pub node_type: &'a NodeType,
     pub is_expanded: bool,
     pub is_checked: bool,
     pub is_indeterminate: bool,
     pub level: u32,
-    pub childs: Vec<TreeNode>
+    pub childs: Vec<TreeNode<'a>>
 }
 
-impl TreeNode {
+impl TreeNode<'_> {
     pub fn new(node: Box<& RawNode>) -> TreeNode {
         TreeNode {
             id: node.id,
+            node_type: &node.node_type,
             level: node.level,
             is_checked: false,
             is_expanded: false,
